@@ -54,7 +54,7 @@ export default function App() {
       <IonHeader>
         <IonToolbar color="primary">
           <div className="bl-icon-div">
-            <BucketListIcon className="bl-svg-icon"/>
+            <BucketListIcon className="bl-svg-icon" />
           </div>
           <IonTitle className="bl-nav-title">BucketList</IonTitle>
         </IonToolbar>
@@ -62,28 +62,28 @@ export default function App() {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path={routes.auth.login} component={Login}/>
-            <Route exact path={routes.auth.register} component={Register}/>
-            <Route exact path={routes.home} component={Dashboard}/>
-            <Route exact path={routes.lists.detail} component={List}/>
-            <Route exact path={routes.suggestions.create} component={NewSuggestion}/>
-            <Route exact path={routes.more} component={More}/>
-            <Route exact path={routes.addFriend} component={AddFriend}/>
-            <Redirect exact from={routes.index} to={routes.suggestions.create}/>
+            <Route exact path={routes.auth.login} component={Login} />
+            <Route exact path={routes.auth.register} component={Register} />
+            <Route exact path={routes.home} component={Dashboard} />
+            <Route exact path={routes.lists.detail} component={List} />
+            <Route exact path={routes.suggestions.create} component={NewSuggestion} />
+            <Route exact path={routes.more} component={More} />
+            <Route exact path={routes.addFriend} component={AddFriend} />
+            <Redirect exact from={routes.index} to={routes.suggestions.create} />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="lists" href={routes.home}>
-              <IonIcon icon={list}/>
-              <IonLabel>Your Lists</IonLabel>
+              <IonIcon icon={list} />
+              <IonLabel>Your Buckets</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="newSuggestion" href={routes.suggestions.create}>
-              <IonIcon icon={addCircleOutline}/>
-              <IonLabel>New Suggestion</IonLabel>
+              <IonIcon icon={addCircleOutline} />
+              <IonLabel>Add Drop</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="more" href={routes.more}>
-              <IonIcon icon={person}/>
+              <IonIcon icon={person} />
               <IonLabel>Profile &amp; Settings</IonLabel>
             </IonTabButton>
           </IonTabBar>
