@@ -1,0 +1,2 @@
+# env vars need to start with REACT_APP_, and .env must be in root of project
+REACT_APP_TEST="Hello World"
