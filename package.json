@@ -1,6 +1,5 @@
 {
   "name": "bucketlist",
-  "homepage": "http://djpeach.github.io/bucketlist",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
