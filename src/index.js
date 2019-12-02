@@ -10,8 +10,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import keys from './conf/keys'
 import App from './App'
 
-console.log(process.env)
-
 const httpLink = new HttpLink({
   uri: 'http://bucketlist.us-east-2.elasticbeanstalk.com/graphql',
 })
