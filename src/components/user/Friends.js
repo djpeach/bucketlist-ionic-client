@@ -170,7 +170,7 @@ function Friends() {
   const {loading, error, data} = useQuery(gql.getAllUsers)
   const [createFriendRequest] = useMutation(gql.createFriendRequest, {
     onCompleted() {
-      setFriendObj(null)
+      setFriendObj(null) 
     }
   })
 
