@@ -1,4 +1,3 @@
-import React from "react";
 import {
   IonPage,
   IonContent,
@@ -13,27 +12,54 @@ import {
   IonInput,
   IonTextarea
 } from "@ionic/react";
-import authedComponent from "../common/AuthedComponent";
+import Select from 'react-select'
+import authedComponent from "../common/AuthedComponent";import React, {useState} from 'react'
+import {useQuery, useMutation} from '@apollo/react-hooks'
+import gql from '../../graphql'
+
+const friendSearchStyles = {
+  menu: (provided, state) => ({
+    ...provided,
+    background: 'white',
+    zIndex: '100 !important',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+  }),
+}
 
 function Friends() {
+  const [friendObj, setFriendObj] = useState(null)
+  const {loading, error, data} = useQuery(gql.getAllUsers)
+
+  const handleFriendSearchChange = friendObj => {
+    setFriendObj(friendObj)
+  }
+
+  const users = (loading || error ? [{id: 0, firstName: 'Loading', lastName: ' Friends. . .'}] : data.getAllUsers)
+
+  users.map((obj) => {
+    obj.value = obj.id
+    obj.label = `${obj.firstName} ${obj.lastName}`
+    return obj
+  })
+
   return (
     <IonPage className="bl-page">
       <IonCard className="bl-card-padding">
         <h1 style={{ paddingBottom: "20px" }}>New Friend</h1>
-        <IonItem style={{ marginTop: "20px" }}>
-          <IonLabel position="floating"></IonLabel>
-          <IonTextarea
-            rows={1}
-            cols={20}
-            autoGrow={true}
-            placeholder={"Search by E-mail"}
-          ></IonTextarea>
-        </IonItem>
-        <IonButton style={{ marginTop: '20px' }} onClick={() => {
-
-        }}>
-          Search
-        </IonButton>
+        <Select
+          value={friendObj}
+          placeholder='Search Friends'
+          styles={friendSearchStyles}
+          onChange={handleFriendSearchChange}
+          noOptionsMessage={() => 'Friend not found'}
+          isClearable
+          isSearchable
+          name="friends"
+          // TODO: set this up to not use mock state (options are label, value)
+          options={users}
+        />
       </IonCard>
     </IonPage>
   );

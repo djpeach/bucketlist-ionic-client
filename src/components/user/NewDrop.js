@@ -42,13 +42,6 @@ function NewDrop(props) {
     setFriendObj(friendObj)
   }
 
-  const handleDescriptionChange = (event) => {
-    var description = event.target.value
-    // Handle newlines in the description textarea (thinking either <br /> or \n)
-    description = description.replace(/\r?\n/g, ' <br /> ')
-    setMessage(description)
-  }
-
   const friends = (loading || error || data.getAllFriends.length <= 0 ? [{id: 0, firstName: 'No', lastName: ' Friends :('}] : data.getAllFriends)
 
   if (!friends.some(f => f.firstName === 'Myself')) {
