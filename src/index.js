@@ -11,7 +11,7 @@ import keys from './conf/keys'
 import App from './App'
 
 const httpLink = new HttpLink({
-  uri: 'http://server.bucketlist.group/graphql',
+  uri: 'https://bucketlistgroup.herokuapp.com/graphql',
 })
 
 const authMiddleware = new ApolloLink((operation, forward) => {
