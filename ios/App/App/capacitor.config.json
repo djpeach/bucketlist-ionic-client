@@ -1,0 +1,8 @@
+{
+  "appId": "com.bucketlistgroup.app",
+  "appName": "Bucketlist",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "cordova": {}
+}

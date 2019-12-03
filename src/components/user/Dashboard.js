@@ -23,16 +23,16 @@ import gql from '../../graphql'
 import firebase from 'firebase'
 import { ListOfBuckets } from '.';
 
-function BucketSelectModal({ acceptingItem, drop, setAcceptingItem }) {
+function BucketSelectModal({ modalIsOpen, setOpen, drop }) {
   const [selectedBucket, changeSelectedBucket] = useState('')
   const [assignItemToList] = useMutation(gql.assignItemToList, {
     onCompleted() {
-      setAcceptingItem(false)
+      setOpen(false)
     }
   })
 
   return (
-    <IonModal isOpen={acceptingItem}>
+    <IonModal isOpen={modalIsOpen}>
       <IonContent>
         <h1 className="bl-list-title">Add New Drop to a Bucket</h1>
         <IonCard className="mt-5">
@@ -62,7 +62,7 @@ function BucketSelectModal({ acceptingItem, drop, setAcceptingItem }) {
         }}>
           Add to Bucket
         </IonButton>
-        <IonButton className="fix-to-bottom" color="danger" onClick={() => setAcceptingItem(false)}>Cancel</IonButton>
+        <IonButton className="fix-to-bottom" color="danger" onClick={() => setOpen(false)}>Cancel</IonButton>
       </IonContent>
     </IonModal>
   )
@@ -83,7 +83,7 @@ function Dashboard() {
   return (
     <IonPage className="bl-page">
       <IonContent fullscreen>
-        <BucketSelectModal acceptingItem={acceptingItem} drop={drop} setAcceptingItem={setAcceptingItem} />
+        <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} />
         <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} />
         <BucketsPreview />
       </IonContent>
