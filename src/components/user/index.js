@@ -4,4 +4,4 @@ export { default as Bucket } from './BucketDetailView';
 export { default as BucketsPreview } from './BucketsPreview';
 export { default as NewDrop } from './NewDrop';
 export { default as More } from './ProfileSettings';
-export { default as AddFriend } from './AddFriend';
+export { default as Friends } from './Friends';

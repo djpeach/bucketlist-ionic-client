@@ -20,7 +20,6 @@ export default {
   friends: {
     list: '/friends/list'
   },
-  addFriend: '/friends/new',
 }
 
 export const routeWithParams = (route, ...params) => {
