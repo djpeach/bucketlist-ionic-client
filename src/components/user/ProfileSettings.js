@@ -9,7 +9,7 @@ import firebase from 'firebase'
 import routes from '../../conf/routes'
 import gql from '../../graphql'
 import authedComponent from '../common/AuthedComponent'
-import {useQuery} from "@apollo/react-hooks";
+import {useQuery, useMutation} from "@apollo/react-hooks";
 
 function UserInfo() {
   const {loading, error, data} = useQuery(gql.getUserById, {
@@ -43,6 +43,13 @@ function UserInfo() {
 }
 
 function ProfileSettings(props) {
+  const [deleteUser] = useMutation(gql.deleteUser, {
+    onCompleted() {
+      
+      // delete from firebase
+      firebase.auth().currentUser.delete()
+    }
+  })
 
   const logout = () => {
     firebase.auth().signOut().then(() => {
@@ -59,6 +66,7 @@ function ProfileSettings(props) {
         </IonCard>
       </IonContent>
       <IonButton onClick={logout} style={{ marginBottom: '20px' }}>Logout</IonButton>
+      <IonButton color="danger" onClick={() => {deleteUser({variables: {id: firebase.auth().currentUser.uid}})}} style={{ marginBottom: '20px'}}>Delete Account</IonButton>
     </IonPage>
   )
 }

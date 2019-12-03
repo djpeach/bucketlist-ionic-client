@@ -3,10 +3,6 @@ import {
   IonPage,
   IonContent,
   IonButton,
-  IonModal,
-  IonTitle,
-  IonCard,
-  IonCardHeader,
   IonItem,
   IonList,
   IonLabel,
@@ -15,7 +11,6 @@ import {
   IonInput,
 } from "@ionic/react";
 import authedComponent from "../common/AuthedComponent";
-import NewDropsPreview from './NewDropsPreview'
 import BucketsPreview from './BucketsPreview'
 import { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -75,54 +70,7 @@ export function ListOfBuckets({ onSelected }) {
   )
 }
 
-function BucketSelectModal({ acceptingItem, drop, setAcceptingItem }) {
-  const [selectedBucket, changeSelectedBucket] = useState('')
-  const [assignItemToList] = useMutation(gql.assignItemToList, {
-    onCompleted() {
-      setAcceptingItem(false)
-    }
-  })
-
-  return (
-    <IonModal isOpen={acceptingItem}>
-      <IonContent>
-        <h1 className="bl-list-title">Add New Drop to a Bucket</h1>
-        <IonCard className="mt-5">
-          <IonCardHeader>New Drop</IonCardHeader>
-          <IonItem>
-            {drop !== {} ? (
-              <div>
-                <p>From: {drop.from && drop.from.firstName} {drop.from && drop.from.lastName}</p>
-                <h5>{drop.message}</h5>
-              </div>
-            ) : (
-                <p>No Drops</p>
-              )}
-          </IonItem>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>Select a Bucket</IonCardHeader>
-          <ListOfBuckets onSelected={changeSelectedBucket} />
-        </IonCard>
-        <IonButton className="bl-list-back-btn" onClick={() => {
-          assignItemToList({
-            variables: {
-              id: drop.id,
-              listId: selectedBucket
-            }
-          })
-        }}>
-          Add to Bucket
-        </IonButton>
-        <IonButton className="fix-to-bottom" color="danger" onClick={() => setAcceptingItem(false)}>Cancel</IonButton>
-      </IonContent>
-    </IonModal>
-  )
-}
-
 function Buckets() {
-  const [acceptingItem, setAcceptingItem] = useState(false)
-  const [drop, setDrop] = useState({})
   const [creatingBucket, setCreatingBucket] = useState(false)
   const [bucketName, setBucketName] = useState('')
   const [createList] = useMutation(gql.createList, {

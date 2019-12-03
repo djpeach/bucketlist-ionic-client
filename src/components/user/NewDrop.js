@@ -78,7 +78,7 @@ function NewDrop(props) {
           options={friends}
         />
         <IonItem>
-          <IonButton style={{ marginTop: '20px', height: '30px' }} href={routes.addFriend}>
+          <IonButton style={{ marginTop: '20px', height: '30px' }} routerLink={routes.friends.list}>
             + New Friend
           </IonButton>
         </IonItem>
@@ -89,7 +89,6 @@ function NewDrop(props) {
           <IonInput placeholder={"Description"} onIonChange={(e) => setMessage(e.target.value)} value={message}/>
         </IonItem>
         <IonButton style={{ marginTop: '20px' }} onClick={() => {
-          console.log(friendObj)
           if (friendObj) {
             createItem({variables: {
               senderId: firebase.auth().currentUser.uid,

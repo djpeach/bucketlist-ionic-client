@@ -24,7 +24,7 @@ import {
   More,
   Login,
   Register,
-  AddFriend,
+  Friends,
 } from './components'
 import routes from './conf/routes'
 
@@ -70,8 +70,7 @@ export default function App() {
             <Route exact path={routes.buckets.detail} component={Bucket} />
             <Route exact path={routes.drops.create} component={NewDrop} />
             <Route exact path={routes.more} component={More} />
-            <Route exact path={routes.addFriend} component={AddFriend} />
-            <Route exact path={routes.friends.list} component={AddFriend} />
+            <Route exact path={routes.friends.list} component={Friends} />
             <Redirect exact from={routes.index} to={routes.home} />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
