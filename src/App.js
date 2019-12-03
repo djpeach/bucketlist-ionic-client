@@ -14,7 +14,7 @@ import {
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { ReactComponent as BucketListIcon } from './bucketlist.svg'
-import { home, list, addCircleOutline, person } from 'ionicons/icons'
+import { home, list, addCircleOutline, people, person } from 'ionicons/icons'
 
 import {
   Dashboard,
@@ -71,27 +71,28 @@ export default function App() {
             <Route exact path={routes.drops.create} component={NewDrop} />
             <Route exact path={routes.more} component={More} />
             <Route exact path={routes.addFriend} component={AddFriend} />
+            <Route exact path={routes.friends.list} component={AddFriend} />
             <Redirect exact from={routes.index} to={routes.home} />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="home" href={routes.home}>
               <IonIcon icon={home} />
-              <IonLabel>Home</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="buckets" href={routes.buckets.list}>
               <IonIcon icon={list} />
-              <IonLabel>Buckets</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="newSuggestion" href={routes.drops.create}>
               <IonIcon icon={addCircleOutline} />
-              <IonLabel>Add Drop</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="friends" href={routes.friends.list}>
+              <IonIcon icon={people} />
             </IonTabButton>
 
             <IonTabButton tab="more" href={routes.more}>
               <IonIcon icon={person} />
-              <IonLabel>Profile</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
