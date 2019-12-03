@@ -36,7 +36,7 @@ function NewDrop(props) {
   const [createItem] = useMutation(gql.createItem, {
     onCompleted() {
       setMessage('')
-      setFriendObj(self)
+      setFriendObj(selfOption)
       props.history.push(routes.home)
     }
   })
