@@ -68,7 +68,7 @@ class Login extends React.Component {
                     oninput={(e) => this.onChange('password', e)} />
                 </IonItem>
                 <IonRow className="ion-align-items-center ion-justify-content-between">
-                  <IonRouterLink href={routes.auth.register}>
+                  <IonRouterLink routerLink={routes.auth.register}>
                     Need an account? Register here.
                   </IonRouterLink>
                   <IonButton type="submit" style={{ float: 'right' }}>Login</IonButton>

@@ -98,7 +98,7 @@ function Register(props) {
                   } />
               </IonItem>
               <IonRow className="ion-align-items-center ion-justify-content-between">
-                <IonRouterLink href={routes.auth.login}>
+                <IonRouterLink routerLink={routes.auth.login}>
                   Back to Login
                 </IonRouterLink>
                 <IonButton type="submit">Register</IonButton>
