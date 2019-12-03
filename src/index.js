@@ -11,7 +11,7 @@ import keys from './conf/keys'
 import App from './App'
 
 const httpLink = new HttpLink({
-  uri: 'http://167.172.125.189/graphql',
+  uri: 'http://server.bucketlist.group/graphql',
 })
 
 const authMiddleware = new ApolloLink((operation, forward) => {
