@@ -23,7 +23,7 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
 
   if (loading) {
     return (
-      <IonCard className="mt-5">
+      <IonCard>
       <IonCardHeader>
         <h1>New Drops</h1>
       </IonCardHeader>
@@ -39,7 +39,7 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
   }
   if (error) {
     return (
-      <IonCard className="mt-5">
+      <IonCard>
       <IonCardHeader>
         <h1>New Drops</h1>
       </IonCardHeader>
@@ -54,7 +54,7 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
     )
   }
   return (
-    <IonCard className="mt-5">
+    <IonCard>
     <IonCardHeader>
       <h1>New Drops</h1>
     </IonCardHeader>

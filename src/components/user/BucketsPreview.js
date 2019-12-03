@@ -19,7 +19,7 @@ export default function BucketsPreview() {
   })
   if (loading) {
     return (
-      <IonCard className="mt-5">
+      <IonCard>
         <IonCardHeader>
           <h1>Your Buckets</h1>
         </IonCardHeader>
@@ -35,7 +35,7 @@ export default function BucketsPreview() {
   }
   if (error) {
     return (
-      <IonCard className="mt-5">
+      <IonCard>
         <IonCardHeader>
           <h1>Your Buckets</h1>
         </IonCardHeader>
@@ -52,7 +52,7 @@ export default function BucketsPreview() {
   }
 
   return (
-    <IonCard className="mt-5">
+    <IonCard>
       <IonCardHeader>
         <h1>Your Buckets</h1>
       </IonCardHeader>
