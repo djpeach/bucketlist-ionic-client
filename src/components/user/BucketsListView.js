@@ -9,6 +9,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonInput,
+  IonRow,
   IonCard,
 } from "@ionic/react";
 import authedComponent from "../common/AuthedComponent";
@@ -81,43 +82,52 @@ function Buckets() {
     }
   })
 
+  const openAddBucket = () => {
+    setCreatingBucket(true)
+  }
+
+  const submitNewBucket = (event) => {
+    event.preventDefault();
+    createList({
+      variables: {
+        title: bucketName,
+        userId: firebase.auth().currentUser.uid
+      }
+    })
+  }
+
+  const cancelAddBucket = () => {
+    setBucketName('');
+    setCreatingBucket(false)
+  }
+
   return (
     <IonPage className="bl-page">
       <IonContent fullscreen>
         <BucketsPreview />
         <IonCard className="bl-card-padding">
           {creatingBucket && (
-            <IonItem>
-              <IonLabel position="floating">Bucket Name</IonLabel>
-              <IonInput placeholder="e.g. Summer Goals" value={bucketName} onInput={e => setBucketName(e.target.value)} />
-            </IonItem>
-          )}
-          {creatingBucket && (
-            <IonButton color="danger" strong type="button"
-              className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
-                setBucketName('');
-                setCreatingBucket(false)
-              }}>
-              Cancel
+            <IonRow>
+              <form onSubmit={submitNewBucket} style={{ width: '100%' }}>
+                <IonItem>
+                  <IonLabel position="floating">Bucket Name</IonLabel>
+                  <IonInput required placeholder="e.g. Summer Goals" value={bucketName} onIonChange={e => setBucketName(e.target.value)} />
+                </IonItem>
+                <IonButton color="danger" strong className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={cancelAddBucket}>
+                  Cancel
               </IonButton>
+                <IonButton color="success" strong type="submit" className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn">
+                  Add Bucket
+                </IonButton>
+              </form>
+            </IonRow>
           )}
-
-          <IonButton color="success" strong type="button"
-            className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
-              if (creatingBucket) {
-                createList({
-                  variables: {
-                    title: bucketName,
-                    userId: firebase.auth().currentUser.uid
-                  }
-                })
-              } else {
-                setCreatingBucket(true)
-              }
-            }}>
-            {creatingBucket ? 'Add Bucket' : '+ New Bucket'}
-
-          </IonButton>
+          {!creatingBucket && (
+            <IonButton color="success" strong type="button"
+              className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={openAddBucket}>
+              + New Bucket
+            </IonButton>
+          )}
         </IonCard>
       </IonContent>
     </IonPage>
