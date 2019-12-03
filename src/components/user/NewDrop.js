@@ -8,8 +8,8 @@ import {
 } from '@ionic/react'
 import Select from 'react-select';
 import authedComponent from '../common/AuthedComponent'
-import React, {useState} from 'react'
-import {useQuery, useMutation} from '@apollo/react-hooks'
+import React, { useState } from 'react'
+import { useQuery, useMutation } from '@apollo/react-hooks'
 import gql from '../../graphql'
 import firebase from 'firebase'
 import routes from '../../conf/routes';
@@ -26,14 +26,14 @@ const friendSearchStyles = {
 }
 
 function NewDrop(props) {
-
-  const [friendObj, setFriendObj] = useState(null)
+  const self = { id: firebase.auth().currentUser.uid, firstName: 'Myself', lastName: '' };
+  const [friendObj, setFriendObj] = useState(self)
   const [message, setMessage] = useState('')
-  const {loading, error, data} = useQuery(gql.getAllFriends, {variables: {userId: firebase.auth().currentUser.uid}})
+  const { loading, error, data } = useQuery(gql.getAllFriends, { variables: { userId: firebase.auth().currentUser.uid } })
   const [createItem] = useMutation(gql.createItem, {
     onCompleted() {
       setMessage('')
-      setFriendObj(null)
+      setFriendObj(self)
       props.history.push(routes.home)
     }
   })
@@ -42,10 +42,22 @@ function NewDrop(props) {
     setFriendObj(friendObj)
   }
 
-  const friends = (loading || error || data.getAllFriends.length <= 0 ? [{id: 0, firstName: 'No', lastName: ' Friends :('}] : data.getAllFriends)
+  const handleSubmit = () => {
+    if (friendObj) {
+      createItem({
+        variables: {
+          senderId: firebase.auth().currentUser.uid,
+          recipientId: friendObj.id,
+          message: message
+        }
+      })
+    }
+  }
+
+  const friends = (loading || error || data.getAllFriends.length <= 0 ? [{ id: 0, firstName: 'No', lastName: ' Friends :(' }] : data.getAllFriends)
 
   if (!friends.some(f => f.firstName === 'Myself')) {
-    friends.unshift({id: firebase.auth().currentUser.uid, firstName: 'Myself', lastName: ''})
+    friends.unshift(self)
   }
   friends.map((obj) => {
     obj.value = obj.id
@@ -67,24 +79,15 @@ function NewDrop(props) {
           isClearable
           isSearchable
           name="friends"
-          // TODO: set this up to not use mock state (options are label, value)
           options={friends}
         />
 
         <IonItem style={{ marginTop: '20px' }}>
           <IonLabel position="floating"></IonLabel>
-          <IonInput placeholder={"Description"} onIonChange={(e) => setMessage(e.target.value)} value={message}/>
+          <IonInput placeholder={"Description"} onIonChange={(e) => setMessage(e.target.value)} value={message} />
         </IonItem>
         <IonButton color="success" strong type="button"
-            className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" style={{ marginTop: '20px' }} onClick={() => {
-          if (friendObj) {
-            createItem({variables: {
-              senderId: firebase.auth().currentUser.uid,
-              recipientId: friendObj.id,
-              message: message
-            }})
-          }
-        }}>
+          className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" style={{ marginTop: '20px' }} onClick={handleSubmit}>
           Send Drop
         </IonButton>
       </IonCard>
