@@ -24,9 +24,8 @@ function Register(props) {
   const [inputs, setInputs] = useState({});
   const [createUser] = useMutation(gql.createUser)
 
-  const onSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
-    // TODO: Form validation, check passwords match
     firebase
       .auth()
       .createUserWithEmailAndPassword(inputs.email, inputs.password)
@@ -51,10 +50,11 @@ function Register(props) {
         <IonRow>
           <IonCol size={12} sizeSm={8} sizeMd={6} offsetSm={2} offsetMd={3}>
             <IonText> Register for BucketList</IonText>
-            <form style={{ marginTop: 16, marginBottom: 16 }}>
+            <form onSubmit={handleSubmit} style={{ marginTop: 16, marginBottom: 16 }}>
               <IonItem>
                 <IonLabel position="stacked">First Name</IonLabel>
                 <IonInput
+                  required
                   type="text"
                   value={inputs['firstName']}
                   oninput={(e) => onChange('firstName', e)} />
@@ -62,6 +62,7 @@ function Register(props) {
               <IonItem>
                 <IonLabel position="stacked">Last Name</IonLabel>
                 <IonInput
+                  required
                   type="text"
                   value={inputs['lastName']}
                   oninput={(e) => onChange('lastName', e)} />
@@ -69,6 +70,7 @@ function Register(props) {
               <IonItem>
                 <IonLabel position="stacked">Email</IonLabel>
                 <IonInput
+                  required
                   type="email"
                   value={inputs['email']}
                   oninput={(e) => onChange('email', e)} />
@@ -76,6 +78,9 @@ function Register(props) {
               <IonItem>
                 <IonLabel position="stacked">Password</IonLabel>
                 <IonInput
+                  required
+                  minlength={6}
+                  clearOnEdit={false}
                   type="password"
                   value={inputs['password']}
                   oninput={(e) => onChange('password', e)} />
@@ -83,19 +88,22 @@ function Register(props) {
               <IonItem>
                 <IonLabel position="stacked">Confirm Password</IonLabel>
                 <IonInput
+                  required
+                  minlength={6}
+                  clearOnEdit={false}
                   type="password"
                   value={inputs['passwordConfirmation']}
                   oninput={(e) =>
                     onChange('passwordConfirmation', e)
                   } />
               </IonItem>
+              <IonRow className="ion-align-items-center ion-justify-content-between">
+                <IonRouterLink href={routes.auth.login}>
+                  Back to Login
+                </IonRouterLink>
+                <IonButton type="submit">Register</IonButton>
+              </IonRow>
             </form>
-            <IonRow className="ion-align-items-center ion-justify-content-between">
-              <IonRouterLink href={routes.auth.login}>
-                Back to Login
-              </IonRouterLink>
-              <IonButton onClick={onSubmit}>Register</IonButton>
-            </IonRow>
           </IonCol>
         </IonRow>
       </IonContent>
