@@ -72,7 +72,7 @@ function BucketView({ setTitle, id }) {
     <IonList>
       {data.getListById.items.map(item => {
         return (
-          <IonItemSliding>
+          <IonItemSliding key={item.id}>
             <IonItem>
               <IonLabel>
                 <p>From: {item.from.firstName} {item.from.lastName}</p>
