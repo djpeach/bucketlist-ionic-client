@@ -66,9 +66,6 @@ function NewDrop(props) {
 
   const friends = (loading || error || data.getAllFriends.length <= 0 ? [{ id: 0, firstName: 'No', lastName: ' Friends :(' }] : data.getAllFriends)
 
-  // if (!friends.some(f => f.firstName === 'Myself')) {
-  //   friends.unshift(self)
-  // }
   friends.map((obj) => {
     obj.value = obj.id
     obj.label = `${obj.firstName} ${obj.lastName}`
