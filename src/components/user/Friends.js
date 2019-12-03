@@ -8,7 +8,9 @@ import {
   IonList,
   IonItemSliding,
   IonItemOptions,
-  IonItemOption
+  IonItemOption,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
 import Select from 'react-select'
 import authedComponent from "../common/AuthedComponent";import React, {useState} from 'react'
@@ -27,10 +29,18 @@ const friendSearchStyles = {
   }),
 }
 
-function FriendRequestList() {
-  const {loading, error, data} = useQuery(gql.getFriendRequestsByUser, {variables: {userId: firebase.auth().currentUser.uid}, pollInterval: 100})
-  const [rejectFriendRequest] = useMutation(gql.rejectFriendRequest)
-  const [acceptFriendRequest] = useMutation(gql.acceptFriendRequest)
+function FriendRequestList({loading, error, data, refetch, updateFriends}) {
+  const [rejectFriendRequest] = useMutation(gql.rejectFriendRequest, {
+    async onCompleted() {
+      await refetch()
+    }
+  })
+  const [acceptFriendRequest] = useMutation(gql.acceptFriendRequest, {
+    async onCompleted() {
+      await refetch()
+      await updateFriends()
+    }
+  })
 
   if (loading) {
     return (
@@ -80,13 +90,15 @@ function FriendRequestList() {
               </IonLabel>
             </IonItem>
             <IonItemOptions>
-              <IonItemOption color="danger" onClick={() => {
-                rejectFriendRequest({variables: {id: req.id}})
+              <IonItemOption color="danger" onClick={ async () => {
+                await rejectFriendRequest({variables: {id: req.id}})
+                await document.querySelector("ion-item-sliding").closeOpened()
               }}>
                 Reject
               </IonItemOption>
-              <IonItemOption onClick={() => {
-                acceptFriendRequest({variables: {id: req.id}})
+              <IonItemOption onClick={ async () => {
+                await acceptFriendRequest({variables: {id: req.id}})
+                await document.querySelector("ion-item-sliding").closeOpened()
               }}>
                 Accept
               </IonItemOption>
@@ -100,9 +112,12 @@ function FriendRequestList() {
 
 }
 
-function MyFriendsList() {
-  const {loading, error, data} = useQuery(gql.getAllFriends, {variables: {userId: firebase.auth().currentUser.uid}, pollInterval: 100})
-  const [removeFriend] = useMutation(gql.removeFriend)
+function MyFriendsList({loading, error, data, refetch}) {
+  const [removeFriend] = useMutation(gql.removeFriend, {
+    async onCompleted() {
+      await refetch()
+    }
+  })
 
   if (loading) {
     return (
@@ -152,8 +167,9 @@ function MyFriendsList() {
               </IonLabel>
             </IonItem>
             <IonItemOptions>
-              <IonItemOption color="danger" onClick={() => {
-                removeFriend({variables: {userId: firebase.auth().currentUser.uid, friendId: f.id}})
+              <IonItemOption color="danger" onClick={ async () => {
+                await removeFriend({variables: {userId: firebase.auth().currentUser.uid, friendId: f.id}})
+                await document.querySelector("ion-item-sliding").closeOpened()
               }}>
                 Delete
               </IonItemOption>
@@ -167,7 +183,9 @@ function MyFriendsList() {
 
 function Friends() {
   const [friendObj, setFriendObj] = useState(null)
-  const {loading, error, data} = useQuery(gql.getAllUsers)
+  const allUsers = useQuery(gql.getAllUsers)
+  const allFriends = useQuery(gql.getAllFriends, {variables: {userId: firebase.auth().currentUser.uid}})
+  const allFriendRequests = useQuery(gql.getFriendRequestsByUser, {variables: {userId: firebase.auth().currentUser.uid}})
   const [createFriendRequest] = useMutation(gql.createFriendRequest, {
     onCompleted() {
       setFriendObj(null) 
@@ -178,7 +196,7 @@ function Friends() {
     setFriendObj(friendObj)
   }
 
-  const users = (loading || error ? [{id: 0, firstName: 'Loading', lastName: ' Friends. . .'}] : data.getAllUsers)
+  const users = (allUsers.loading || allUsers.error ? [{id: 0, firstName: 'Loading', lastName: ' Friends. . .'}] : allUsers.data.getAllUsers)
 
   users.map((obj) => {
     obj.value = obj.id
@@ -186,16 +204,29 @@ function Friends() {
     return obj
   })
 
+  async function doRefresh(e) {
+    await allUsers.refetch()
+    await allFriends.refetch()
+    await allFriendRequests.refetch()
+    e.detail.complete()
+  }
+
   return (
     <IonPage className="bl-page">
       <IonContent>
-      <IonCard className="bl-card-padding">
+        <IonRefresher slot="fixed" onIonRefresh={doRefresh} style={{zIndex: "100"}}>
+          <IonRefresherContent
+            pullingIcon="arrow-dropdown"
+            pullingText="Pull to refresh">
+          </IonRefresherContent>
+        </IonRefresher>
+        <IonCard className="bl-card-padding">
           <h1 style={{ paddingBottom: "20px" }}>New Friend Requests</h1>
-          <FriendRequestList/>
+          <FriendRequestList updateFriends={allFriends.refetch} {...allFriendRequests}/>
         </IonCard>
         <IonCard className="bl-card-padding">
           <h1 style={{ paddingBottom: "20px" }}>My Friends</h1>
-          <MyFriendsList/>
+          <MyFriendsList {...allFriends}/>
         </IonCard>
         <IonCard className="bl-card-padding">
           <h1 style={{ paddingBottom: "20px" }}>Add Friend</h1>

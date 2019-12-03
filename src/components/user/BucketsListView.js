@@ -11,6 +11,8 @@ import {
   IonInput,
   IonRow,
   IonCard,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
 import authedComponent from "../common/AuthedComponent";
 import BucketsPreview from './BucketsPreview'
@@ -82,6 +84,10 @@ function Buckets() {
     }
   })
 
+  const lists = useQuery(gql.getListsByUser, {
+    variables: { id: firebase.auth().currentUser.uid }
+  })
+
   const openAddBucket = () => {
     setCreatingBucket(true)
   }
@@ -101,10 +107,21 @@ function Buckets() {
     setCreatingBucket(false)
   }
 
+  async function doRefresh(e) {
+    await lists.refetch()
+    e.detail.complete()
+  }
+
   return (
     <IonPage className="bl-page">
       <IonContent fullscreen>
-        <BucketsPreview />
+        <IonRefresher slot="fixed" onIonRefresh={doRefresh} style={{zIndex: "100"}}>
+          <IonRefresherContent
+            pullingIcon="arrow-dropdown"
+            pullingText="Pull to refresh">
+          </IonRefresherContent>
+        </IonRefresher>
+        <BucketsPreview {...lists} />
         <IonCard className="bl-card-padding">
           {creatingBucket && (
             <IonRow>

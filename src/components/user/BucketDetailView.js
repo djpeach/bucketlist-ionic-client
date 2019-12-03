@@ -15,6 +15,8 @@ import {
   IonItemOptions,
   IonItemOption,
   IonIcon,
+  IonRefresher,
+  IonRefresherContent,
 } from '@ionic/react'
 import { arrowRoundBack } from 'ionicons/icons'
 import MdArrowDropleft from 'react-ionicons/lib/MdArrowDropleft'
@@ -22,9 +24,12 @@ import routes from '../../conf/routes'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from '../../graphql'
 
-function BucketView(props) {
-  const { loading, error, data } = useQuery(gql.getListById, { variables: { id: props.id }, pollInterval: 100 })
-  const [deleteItem] = useMutation(gql.deleteItem)
+function BucketView({loading, error, data, ...props}) {
+  const [deleteItem] = useMutation(gql.deleteItem, {
+    async onCompleted() {
+      await props.refetch()
+    }
+  })
 
   if (loading) {
     props.setTitle('Loading ...')
@@ -106,15 +111,28 @@ function BucketView(props) {
 
 
 function Bucket(props) {
+  const list = useQuery(gql.getListById, { variables: { id: props.match.params.id }})
   const [title, setTitle] = useState('')
   const [deleteList] = useMutation(gql.deleteList, {
     onCompleted() {
       props.history.push(routes.home)
     }
   })
+
+  async function doRefresh(e) {
+    await list.refetch()
+    e.detail.complete()
+  }
+
   return (
     <IonPage className="bl-page">
       <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={doRefresh} style={{zIndex: "100"}}>
+          <IonRefresherContent
+            pullingIcon="arrow-dropdown"
+            pullingText="Pull to refresh">
+          </IonRefresherContent>
+        </IonRefresher>
         <IonGrid>
           <IonCol size="12" size-sm="6">
             <IonButton
@@ -127,7 +145,7 @@ function Bucket(props) {
             </IonButton>
             <IonCard className="bl-card-padding">
           <h1 style={{ paddingBottom: "20px" }}>{title}</h1>
-              <BucketView setTitle={setTitle} id={props.match.params.id} history={props.history} />
+              <BucketView setTitle={setTitle} history={props.history} {...list} />
             </IonCard>
             <IonButton color="danger" strong type="button"
               className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {

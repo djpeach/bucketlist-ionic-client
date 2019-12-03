@@ -12,11 +12,7 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from '../../graphql';
 import firebase from "firebase";
 
-export default function BucketsPreview() {
-  const { loading, error, data } = useQuery(gql.getListsByUser, {
-    variables: { id: firebase.auth().currentUser.uid },
-    pollInterval: 100
-  })
+export default function BucketsPreview({loading, error, data}) {
   if (loading) {
     return (
       <IonCard>
@@ -49,6 +45,10 @@ export default function BucketsPreview() {
         </IonList>
       </IonCard>
     )
+  }
+
+  if (!data || !data.getListsByUser) {
+    return ''
   }
 
   return (

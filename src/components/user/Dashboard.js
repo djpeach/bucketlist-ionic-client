@@ -26,11 +26,12 @@ import gql from '../../graphql'
 import firebase from 'firebase'
 import { ListOfBuckets } from '.';
 
-function BucketSelectModal({ refetch, modalIsOpen, setOpen, drop }) {
+function BucketSelectModal({ refetch, modalIsOpen, setOpen, drop, updateLists}) {
   const [selectedBucket, changeSelectedBucket] = useState('')
   const [assignItemToList] = useMutation(gql.assignItemToList, {
     async onCompleted() {
       await refetch()
+      await updateLists()
       setOpen(false)
     }
   })
@@ -83,21 +84,17 @@ function BucketSelectModal({ refetch, modalIsOpen, setOpen, drop }) {
 function Dashboard() {
   const [acceptingItem, setAcceptingItem] = useState(false)
   const [drop, setDrop] = useState({})
-  const [creatingBucket, setCreatingBucket] = useState(false)
-  const [bucketName, setBucketName] = useState('')
-  const [shouldRefetch, setShouldRefetch] = useState(false)
-  const [createList] = useMutation(gql.createList, {
-    onCompleted() {
-      setCreatingBucket(false)
-      setBucketName('')
-    }
-  })
-  const {loading, error, data, refetch} = useQuery(gql.getNewItemsByUser, {
+  const newItems = useQuery(gql.getNewItemsByUser, {
     variables: {userId: firebase.auth().currentUser.uid}
   });
 
+  const lists = useQuery(gql.getListsByUser, {
+    variables: { id: firebase.auth().currentUser.uid }
+  })
+
   async function doRefresh(e) {
-    await refetch()
+    await newItems.refetch()
+    await lists.refetch()
     e.detail.complete()
   }
 
@@ -111,9 +108,9 @@ function Dashboard() {
             </IonRefresherContent>
           </IonRefresher>
 
-        <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} refetch={refetch} />
-        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} loading={loading} error={error} data={data} refetch={refetch} />
-        <BucketsPreview />
+        <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} refetch={newItems.refetch} updateLists={lists.refetch} />
+        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} {...newItems} />
+        <BucketsPreview {...lists}/>
       </IonContent>
     </IonPage>
   )
