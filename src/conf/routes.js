@@ -17,6 +17,9 @@ export default {
     login: '/auth/login',
     register: '/auth/register',
   },
+  friends: {
+    list: '/friends/list'
+  },
   addFriend: '/friends/new',
 }
 
