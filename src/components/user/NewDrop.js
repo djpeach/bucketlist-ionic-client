@@ -4,7 +4,7 @@ import {
   IonButton,
   IonItem,
   IonLabel,
-  IonTextarea
+  IonInput,
 } from '@ionic/react'
 import Select from 'react-select';
 import authedComponent from '../common/AuthedComponent'
@@ -32,9 +32,9 @@ function NewDrop(props) {
   const {loading, error, data} = useQuery(gql.getAllFriends, {variables: {userId: firebase.auth().currentUser.uid}})
   const [createItem] = useMutation(gql.createItem, {
     onCompleted() {
-      props.history.push(routes.home)
-      setFriendObj(null)
       setMessage('')
+      setFriendObj(null)
+      props.history.push(routes.home)
     }
   })
 
@@ -86,14 +86,17 @@ function NewDrop(props) {
 
         <IonItem style={{ marginTop: '20px' }}>
           <IonLabel position="floating"></IonLabel>
-          <IonTextarea rows={1} cols={20} autoGrow={true} placeholder={"Description"} onIonChange={handleDescriptionChange}></IonTextarea>
+          <IonInput placeholder={"Description"} onIonChange={(e) => setMessage(e.target.value)} value={message}/>
         </IonItem>
         <IonButton style={{ marginTop: '20px' }} onClick={() => {
-          createItem({variables: {
-            senderId: firebase.auth().currentUser.uid,
-            recipientId: friendObj.id,
-            message: message
-          }})
+          console.log(friendObj)
+          if (friendObj) {
+            createItem({variables: {
+              senderId: firebase.auth().currentUser.uid,
+              recipientId: friendObj.id,
+              message: message
+            }})
+          }
         }}>
           Send Drop
         </IonButton>
