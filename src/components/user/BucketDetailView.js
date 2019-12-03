@@ -14,7 +14,9 @@ import {
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
+  IonIcon,
 } from '@ionic/react'
+import { arrowRoundBack } from 'ionicons/icons'
 import MdArrowDropleft from 'react-ionicons/lib/MdArrowDropleft'
 import routes from '../../conf/routes'
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -73,7 +75,7 @@ function BucketView({ setTitle, id }) {
       {data.getListById.items.map(item => {
         return (
           <IonItemSliding key={item.id}>
-            <IonItem>
+            <IonItem key={item.id}>
               <IonLabel>
                 <p>From: {item.from.firstName} {item.from.lastName}</p>
                 <h3>{item.message}</h3>
@@ -112,10 +114,10 @@ function Bucket(props) {
               routerLink={routes.buckets.list}
               routerDirection="back"
               className="bl-list-back-btn">
-              <MdArrowDropleft /> Back
+              <IonIcon icon={arrowRoundBack} style={{paddingRight: '10px'}}/> Back
             </IonButton>
-            <IonCard>
-              <IonTitle className="bl-list-title">{title}</IonTitle>
+            <IonCard className="bl-card-padding">
+          <h1 style={{ paddingBottom: "20px" }}>{title}</h1>
               <BucketView setTitle={setTitle} id={props.match.params.id} />
             </IonCard>
             <IonButton color="danger" strong type="button"
