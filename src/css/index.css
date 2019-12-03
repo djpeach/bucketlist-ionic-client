@@ -119,14 +119,14 @@
   margin-top: 50px;
 }
 
-.fix-to-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 10px;
-  right: 0;
+.bl-bottom-row {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  width: calc(100% - 32px);
 }
 
-.push-to-top {
-  display: inline;
-  padding: 20px 0;
+.modal-wrapper {
+  border-radius: 4px;
+  padding: 16px;
 }
