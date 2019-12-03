@@ -70,18 +70,13 @@ function NewDrop(props) {
           // TODO: set this up to not use mock state (options are label, value)
           options={friends}
         />
-        <IonItem>
-          <IonButton style={{ marginTop: '20px', height: '30px' }} routerLink={routes.friends.list}>
-            + New Friend
-          </IonButton>
-        </IonItem>
-
 
         <IonItem style={{ marginTop: '20px' }}>
           <IonLabel position="floating"></IonLabel>
           <IonInput placeholder={"Description"} onIonChange={(e) => setMessage(e.target.value)} value={message}/>
         </IonItem>
-        <IonButton style={{ marginTop: '20px' }} onClick={() => {
+        <IonButton color="success" strong type="button"
+            className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" style={{ marginTop: '20px' }} onClick={() => {
           if (friendObj) {
             createItem({variables: {
               senderId: firebase.auth().currentUser.uid,

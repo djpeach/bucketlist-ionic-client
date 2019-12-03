@@ -207,8 +207,8 @@ function Friends() {
             // TODO: set this up to not use mock state (options are label, value)
             options={users}
           />
-          <IonItem>
-            <IonButton style={{ marginTop: '20px', height: '30px' }} onClick={() => {
+            <IonButton color="success" strong type="button"
+            className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
               if (friendObj) {
                 createFriendRequest({variables: {
                   senderId: firebase.auth().currentUser.uid,
@@ -218,7 +218,6 @@ function Friends() {
             }}>
               Send Friend Request
             </IonButton>
-          </IonItem>
         </IonCard>
       </IonContent>
     </IonPage>

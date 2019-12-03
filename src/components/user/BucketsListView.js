@@ -9,6 +9,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonInput,
+  IonCard,
 } from "@ionic/react";
 import authedComponent from "../common/AuthedComponent";
 import BucketsPreview from './BucketsPreview'
@@ -84,25 +85,29 @@ function Buckets() {
     <IonPage className="bl-page">
       <IonContent fullscreen>
         <BucketsPreview />
-        {creatingBucket && <IonInput placeholder="Bucket Name" value={bucketName}
-          onInput={e => setBucketName(e.target.value)} />}
-        <IonButton color="success" strong type="button"
-          className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
-            if (creatingBucket) {
-              if (bucketName !== '') {
-                createList({
-                  variables: {
-                    title: bucketName,
-                    userId: firebase.auth().currentUser.uid
-                  }
-                })
+        <IonCard className="bl-card-padding">
+          {creatingBucket && <IonInput placeholder="Bucket Name" value={bucketName}
+            onInput={e => setBucketName(e.target.value)} />}
+          <IonButton color="success" strong type="button"
+            className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
+              if (creatingBucket) {
+                if (bucketName !== '') {
+                  createList({
+                    variables: {
+                      title: bucketName,
+                      userId: firebase.auth().currentUser.uid
+                    }
+                  })
+                } else {
+                  setCreatingBucket(false)
+                }
+              } else {
+                setCreatingBucket(true)
               }
-            } else {
-              setCreatingBucket(true)
-            }
-          }}>
-          {creatingBucket ? 'Add Bucket' : '+ New Bucket'}
-        </IonButton>
+            }}>
+            {creatingBucket ? (bucketName === '' ? 'Cancel' : 'Add Bucket') : '+ New Bucket'}
+          </IonButton>
+        </IonCard>
       </IonContent>
     </IonPage>
   )
