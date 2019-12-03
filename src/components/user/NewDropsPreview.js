@@ -14,7 +14,7 @@ import {useQuery, useMutation} from "@apollo/react-hooks";
 import gql from '../../graphql';
 import firebase from "firebase";
 
-export default function NewDropsPreview({loading, error, data, setAcceptingItem, setDrop}) {
+export default function NewDropsPreview({loading, error, data, refetch, setAcceptingItem, setDrop}) {
   const [deleteItem] = useMutation(gql.deleteItem)
 
   if (loading) {
@@ -65,13 +65,14 @@ export default function NewDropsPreview({loading, error, data, setAcceptingItem,
                 </IonLabel>
               </IonItem>
               <IonItemOptions>
-                <IonItemOption color="danger" onClick={() => {
+                <IonItemOption color="danger" onClick={ async () => {
                   deleteItem({variables: { id: item.id }})
+                  refetch()
+                  await document.querySelector("ion-item-sliding").closeOpened()
                 }}>Reject</IonItemOption>
                 <IonItemOption onClick={ async () => {
                   setDrop(item)
                   setAcceptingItem(true)
-
                   await document.querySelector("ion-item-sliding").closeOpened()
                 }}>Accept</IonItemOption>
               </IonItemOptions>

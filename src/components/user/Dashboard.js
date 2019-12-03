@@ -111,7 +111,7 @@ function Dashboard() {
           </IonRefresher>
 
         <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} />
-        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} loading={loading} error={error} data={data} />
+        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} loading={loading} error={error} data={data} refetch={refetch} />
         <BucketsPreview />
       </IonContent>
     </IonPage>
