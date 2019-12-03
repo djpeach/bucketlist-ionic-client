@@ -74,7 +74,7 @@ function FriendRequestList() {
       {data.getFriendRequestsByUser.map(req => {
         return (
           <IonItemSliding>
-            <IonItem>
+            <IonItem key={req.id}>
               <IonLabel>
                 <p>From: {req.from.firstName} {req.from.lastName}</p>
               </IonLabel>
