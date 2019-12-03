@@ -26,10 +26,11 @@ import gql from '../../graphql'
 import firebase from 'firebase'
 import { ListOfBuckets } from '.';
 
-function BucketSelectModal({ modalIsOpen, setOpen, drop }) {
+function BucketSelectModal({ refetch, modalIsOpen, setOpen, drop }) {
   const [selectedBucket, changeSelectedBucket] = useState('')
   const [assignItemToList] = useMutation(gql.assignItemToList, {
-    onCompleted() {
+    async onCompleted() {
+      await refetch()
       setOpen(false)
     }
   })
@@ -110,7 +111,7 @@ function Dashboard() {
             </IonRefresherContent>
           </IonRefresher>
 
-        <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} />
+        <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} refetch={refetch} />
         <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} loading={loading} error={error} data={data} refetch={refetch} />
         <BucketsPreview />
       </IonContent>
