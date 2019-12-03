@@ -14,7 +14,7 @@ import {
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { ReactComponent as BucketListIcon } from './bucketlist.svg'
-import { home, list, addCircleOutline, people, person } from 'ionicons/icons'
+import { contact, home, list, addCircleOutline, people } from 'ionicons/icons'
 
 import {
   Dashboard,
@@ -92,7 +92,7 @@ export default function App() {
             </IonTabButton>
 
             <IonTabButton tab="more" href={routes.more}>
-              <IonIcon icon={person} />
+              <IonIcon icon={contact} />
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
