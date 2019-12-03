@@ -14,11 +14,7 @@ import {useQuery, useMutation} from "@apollo/react-hooks";
 import gql from '../../graphql';
 import firebase from "firebase";
 
-export default function NewDropsPreview({setAcceptingItem, setDrop}) {
-  const {loading, error, data} = useQuery(gql.getNewItemsByUser, {
-    variables: {userId: firebase.auth().currentUser.uid},
-    pollInterval: 100
-  });
+export default function NewDropsPreview({loading, error, data, setAcceptingItem, setDrop}) {
   const [deleteItem] = useMutation(gql.deleteItem)
 
   if (loading) {

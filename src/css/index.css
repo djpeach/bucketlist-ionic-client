@@ -130,3 +130,8 @@
   border-radius: 4px;
   padding: 16px;
 }
+
+.spinner svg {
+  stroke: #777;
+  fill: #777;
+}

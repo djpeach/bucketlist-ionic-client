@@ -13,7 +13,9 @@ import {
   IonSelect,
   IonSelectOption,
   IonCol,
-  IonRow
+  IonRow,
+  IonRefresher,
+  IonRefresherContent,
 } from "@ionic/react";
 import authedComponent from "../common/AuthedComponent";
 import NewDropsPreview from './NewDropsPreview'
@@ -82,18 +84,34 @@ function Dashboard() {
   const [drop, setDrop] = useState({})
   const [creatingBucket, setCreatingBucket] = useState(false)
   const [bucketName, setBucketName] = useState('')
+  const [shouldRefetch, setShouldRefetch] = useState(false)
   const [createList] = useMutation(gql.createList, {
     onCompleted() {
       setCreatingBucket(false)
       setBucketName('')
     }
   })
+  const {loading, error, data, refetch} = useQuery(gql.getNewItemsByUser, {
+    variables: {userId: firebase.auth().currentUser.uid}
+  });
+
+  async function doRefresh(e) {
+    await refetch()
+    e.detail.complete()
+  }
 
   return (
     <IonPage className="bl-page">
       <IonContent fullscreen>
+          <IonRefresher slot="fixed" onIonRefresh={doRefresh} style={{zIndex: "100"}}>
+            <IonRefresherContent
+              pullingIcon="arrow-dropdown"
+              pullingText="Pull to refresh">
+            </IonRefresherContent>
+          </IonRefresher>
+
         <BucketSelectModal modalIsOpen={acceptingItem} drop={drop} setOpen={setAcceptingItem} />
-        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} />
+        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} loading={loading} error={error} data={data} />
         <BucketsPreview />
       </IonContent>
     </IonPage>
