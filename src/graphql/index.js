@@ -4,6 +4,8 @@ import ListAccessors from './accessors/List'
 import ListMutators from './mutators/List'
 import ItemAccessors from './accessors/Item'
 import ItemMutators from './mutators/Item'
+import FriendRequestAccessors from './accessors/FriendRequest'
+import FriendRequestMutators from './mutators/FriendRequest'
 
 export default {
   ...UserAccessors,
@@ -12,4 +14,6 @@ export default {
   ...ListMutators,
   ...ItemAccessors,
   ...ItemMutators,
+  ...FriendRequestAccessors,
+  ...FriendRequestMutators,
 }
