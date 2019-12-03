@@ -53,12 +53,12 @@ function BucketSelectModal({ acceptingItem, drop, setAcceptingItem }) {
           <ListOfBuckets onSelected={changeSelectedBucket} />
         </IonCard>
         <IonButton className="bl-list-back-btn" onClick={() => {
-          assignItemToList({
-            variables: {
+          if (selectedBucket !== '') {
+            assignItemToList({variables: {
               id: drop.id,
               listId: selectedBucket
-            }
-          })
+            }})
+          }
         }}>
           Add to Bucket
         </IonButton>
