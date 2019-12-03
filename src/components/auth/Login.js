@@ -21,12 +21,7 @@ class Login extends React.Component {
     password: '',
   }
 
-  constructor(props) {
-    super(props)
-    this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  onSubmit = (event) => {
+  handleSubmit = (event) => {
     console.log('logging in')
     event.preventDefault()
     // TODO: Form validation, check passwords match
@@ -55,10 +50,11 @@ class Login extends React.Component {
           <IonRow>
             <IonCol size={12} sizeSm={8} sizeMd={6} offsetSm={2} offsetMd={3}>
               <IonText> Login to BucketList</IonText>
-              <form style={{ marginTop: 16 }}>
+              <form style={{ marginTop: 16 }} onSubmit={this.handleSubmit}>
                 <IonItem>
                   <IonLabel position="stacked">Email</IonLabel>
                   <IonInput
+                    required
                     type="email"
                     value={this.state.email}
                     oninput={(e) => this.onChange('email', e)} />
@@ -66,17 +62,18 @@ class Login extends React.Component {
                 <IonItem className="ion-margin-bottom">
                   <IonLabel position="stacked">Password</IonLabel>
                   <IonInput
+                    required
                     type="password"
                     value={this.state.password}
                     oninput={(e) => this.onChange('password', e)} />
                 </IonItem>
+                <IonRow className="ion-align-items-center ion-justify-content-between">
+                  <IonRouterLink href={routes.auth.register}>
+                    Need an account? Register here.
+                  </IonRouterLink>
+                  <IonButton type="submit" style={{ float: 'right' }}>Login</IonButton>
+                </IonRow>
               </form>
-              <IonRow className="ion-align-items-center ion-justify-content-between">
-                <IonRouterLink href={routes.auth.register}>
-                  Need an account? Register here.
-              </IonRouterLink>
-                <IonButton onClick={this.onSubmit} style={{ float: 'right' }}>Login</IonButton>
-              </IonRow>
             </IonCol>
           </IonRow>
         </IonContent>

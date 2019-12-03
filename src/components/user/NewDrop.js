@@ -28,7 +28,7 @@ const friendSearchStyles = {
 
 function NewDrop(props) {
   const self = { id: firebase.auth().currentUser.uid, firstName: 'Myself', lastName: '' };
-  const selfOption = { value: self.id, label: 'Myself' };
+  const selfOption = { id: self.id, value: self.id, label: 'Myself' };
   const [friendObj, setFriendObj] = useState(selfOption)
   const [selectedBucket, changeSelectedBucket] = useState('')
   const [message, setMessage] = useState('')
@@ -45,7 +45,8 @@ function NewDrop(props) {
     setFriendObj(friendObj)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     if (friendObj) {
       const itemObj = {
         senderId: firebase.auth().currentUser.uid,
@@ -93,7 +94,7 @@ function NewDrop(props) {
             <IonLabel position="floating">Description</IonLabel>
             <IonInput placeholder="e.g. go on an adventure" required onIonChange={(e) => setMessage(e.target.value)} value={message} />
           </IonItem>
-          {friendObj.firstName === 'Myself' && (
+          {friendObj && friendObj.label === 'Myself' && (
             <IonItem>
               <ListOfBuckets onSelected={changeSelectedBucket} />
             </IonItem>
