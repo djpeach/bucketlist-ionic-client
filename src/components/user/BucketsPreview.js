@@ -21,7 +21,7 @@ export default function BucketsPreview() {
     return (
       <IonCard className="mt-5">
         <IonCardHeader>
-          <IonTitle>Your Buckets</IonTitle>
+          <h1>Your Buckets</h1>
         </IonCardHeader>
         <IonList>
           <IonItem>
@@ -37,7 +37,7 @@ export default function BucketsPreview() {
     return (
       <IonCard className="mt-5">
         <IonCardHeader>
-          <IonTitle>Your Buckets</IonTitle>
+          <h1>Your Buckets</h1>
         </IonCardHeader>
         <IonList>
           <IonItem>
@@ -54,7 +54,7 @@ export default function BucketsPreview() {
   return (
     <IonCard className="mt-5">
       <IonCardHeader>
-        <IonTitle>Your Buckets</IonTitle>
+        <h1>Your Buckets</h1>
       </IonCardHeader>
       <IonList>
         {data.getListsByUser.length > 0 ? data.getListsByUser.map(list => {

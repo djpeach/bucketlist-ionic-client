@@ -25,7 +25,7 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
     return (
       <IonCard className="mt-5">
       <IonCardHeader>
-        <IonTitle>New Drops</IonTitle>
+        <h1>New Drops</h1>
       </IonCardHeader>
       <IonList>
         <IonItem>
@@ -41,7 +41,7 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
     return (
       <IonCard className="mt-5">
       <IonCardHeader>
-        <IonTitle>New Drops</IonTitle>
+        <h1>New Drops</h1>
       </IonCardHeader>
       <IonList>
         <IonItem>
@@ -56,7 +56,7 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
   return (
     <IonCard className="mt-5">
     <IonCardHeader>
-      <IonTitle>New Drops</IonTitle>
+      <h1>New Drops</h1>
     </IonCardHeader>
       <IonList>
         {data.getNewItemsByUser.length > 0 ? data.getNewItemsByUser.map((item) => {
