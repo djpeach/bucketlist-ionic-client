@@ -29,9 +29,10 @@ const friendSearchStyles = {
 function NewDrop(props) {
   const self = { id: firebase.auth().currentUser.uid, firstName: 'Myself', lastName: '' };
   const selfOption = { id: self.id, value: self.id, label: 'Myself' };
-  const [friendObj, setFriendObj] = useState(selfOption)
+  const messageExists = props.location.state && props.location.state.message
+  const [friendObj, setFriendObj] = useState(messageExists ? null : selfOption)
   const [selectedBucket, changeSelectedBucket] = useState('')
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState(messageExists ? props.location.state.message : '')
   const { loading, error, data } = useQuery(gql.getAllFriends, { variables: { userId: firebase.auth().currentUser.uid } })
   const [createItem] = useMutation(gql.createItem, {
     onCompleted() {
@@ -73,6 +74,8 @@ function NewDrop(props) {
     return obj
   })
 
+  const selectOptions = messageExists ? friends : [selfOption, ...friends]
+
   return (
     <IonPage className="bl-page">
       <IonCard className="bl-card-padding">
@@ -87,7 +90,7 @@ function NewDrop(props) {
             isClearable
             isSearchable
             name="friends"
-            options={[selfOption, ...friends]}
+            options={selectOptions}
           />
 
           <IonItem style={{ marginTop: '20px' }}>

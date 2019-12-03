@@ -22,12 +22,12 @@ import routes from '../../conf/routes'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from '../../graphql'
 
-function BucketView({ setTitle, id }) {
-  const { loading, error, data } = useQuery(gql.getListById, { variables: { id: id }, pollInterval: 100 })
+function BucketView(props) {
+  const { loading, error, data } = useQuery(gql.getListById, { variables: { id: props.id }, pollInterval: 100 })
   const [deleteItem] = useMutation(gql.deleteItem)
 
   if (loading) {
-    setTitle('Loading ...')
+    props.setTitle('Loading ...')
     return (
       <IonList>
         <IonItem>
@@ -40,7 +40,7 @@ function BucketView({ setTitle, id }) {
   }
 
   if (error) {
-    setTitle('Error!')
+    props.setTitle('Error!')
     return (
       <IonList>
         <IonItem>
@@ -52,7 +52,7 @@ function BucketView({ setTitle, id }) {
     )
   }
 
-  setTitle(data.getListById ? data.getListById.title : '')
+  props.setTitle(data.getListById ? data.getListById.title : '')
 
   if (!data.getListById) {
     return ''
@@ -82,6 +82,15 @@ function BucketView({ setTitle, id }) {
               </IonLabel>
             </IonItem>
             <IonItemOptions>
+              <IonItemOption color="primary" onClick={ async () => {
+                props.history.push({
+                  pathname: routes.drops.create,
+                  state: { message: item.message }
+                })
+                await document.querySelector("ion-item-sliding").closeOpened()
+              }}>
+                Share
+              </IonItemOption>
               <IonItemOption color="secondary" onClick={() => {
                 deleteItem({ variables: { id: item.id } })
               }}>
@@ -118,7 +127,7 @@ function Bucket(props) {
             </IonButton>
             <IonCard className="bl-card-padding">
           <h1 style={{ paddingBottom: "20px" }}>{title}</h1>
-              <BucketView setTitle={setTitle} id={props.match.params.id} />
+              <BucketView setTitle={setTitle} id={props.match.params.id} history={props.history} />
             </IonCard>
             <IonButton color="danger" strong type="button"
               className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {

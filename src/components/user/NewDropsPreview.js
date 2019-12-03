@@ -72,9 +72,11 @@ export default function NewDropsPreview({setAcceptingItem, setDrop}) {
                 <IonItemOption color="danger" onClick={() => {
                   deleteItem({variables: { id: item.id }})
                 }}>Reject</IonItemOption>
-                <IonItemOption onClick={() => {
+                <IonItemOption onClick={ async () => {
                   setDrop(item)
                   setAcceptingItem(true)
+
+                  await document.querySelector("ion-item-sliding").closeOpened()
                 }}>Accept</IonItemOption>
               </IonItemOptions>
             </IonItemSliding>
