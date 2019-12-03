@@ -86,26 +86,37 @@ function Buckets() {
       <IonContent fullscreen>
         <BucketsPreview />
         <IonCard className="bl-card-padding">
-          {creatingBucket && <IonInput placeholder="Bucket Name" value={bucketName}
-            onInput={e => setBucketName(e.target.value)} />}
+          {creatingBucket && (
+            <IonItem>
+              <IonLabel position="floating">Bucket Name</IonLabel>
+              <IonInput placeholder="e.g. Summer Goals" value={bucketName} onInput={e => setBucketName(e.target.value)} />
+            </IonItem>
+          )}
+          {creatingBucket && (
+            <IonButton color="danger" strong type="button"
+              className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
+                setBucketName('');
+                setCreatingBucket(false)
+              }}>
+              Cancel
+              </IonButton>
+          )}
+
           <IonButton color="success" strong type="button"
             className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
               if (creatingBucket) {
-                if (bucketName !== '') {
-                  createList({
-                    variables: {
-                      title: bucketName,
-                      userId: firebase.auth().currentUser.uid
-                    }
-                  })
-                } else {
-                  setCreatingBucket(false)
-                }
+                createList({
+                  variables: {
+                    title: bucketName,
+                    userId: firebase.auth().currentUser.uid
+                  }
+                })
               } else {
                 setCreatingBucket(true)
               }
             }}>
-            {creatingBucket ? (bucketName === '' ? 'Cancel' : 'Add Bucket') : '+ New Bucket'}
+            {creatingBucket ? 'Add Bucket' : '+ New Bucket'}
+
           </IonButton>
         </IonCard>
       </IonContent>

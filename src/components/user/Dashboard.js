@@ -12,7 +12,8 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
-  IonInput,
+  IonCol,
+  IonRow
 } from "@ionic/react";
 import authedComponent from "../common/AuthedComponent";
 import NewDropsPreview from './NewDropsPreview'
@@ -34,35 +35,43 @@ function BucketSelectModal({ modalIsOpen, setOpen, drop }) {
   return (
     <IonModal isOpen={modalIsOpen}>
       <IonContent>
-        <h1 className="bl-list-title">Add New Drop to a Bucket</h1>
-        <IonCard className="mt-5">
-          <IonCardHeader>New Drop</IonCardHeader>
-          <IonItem>
-            {drop !== {} ? (
-              <div>
-                <p>From: {drop.from && drop.from.firstName} {drop.from && drop.from.lastName}</p>
-                <h5>{drop.message}</h5>
-              </div>
-            ) : (
-                <p>No Drops</p>
-              )}
-          </IonItem>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>Select a Bucket</IonCardHeader>
-          <ListOfBuckets onSelected={changeSelectedBucket} />
-        </IonCard>
-        <IonButton className="bl-list-back-btn" onClick={() => {
-          if (selectedBucket !== '') {
-            assignItemToList({variables: {
-              id: drop.id,
-              listId: selectedBucket
-            }})
-          }
-        }}>
-          Add to Bucket
-        </IonButton>
-        <IonButton className="fix-to-bottom" color="danger" onClick={() => setOpen(false)}>Cancel</IonButton>
+        <IonRow style={{ height: '100%' }}>
+          <IonCol className="ion-padding" style={{ height: '100%' }}>
+            <h1 className="bl-list-title">Add New Drop to a Bucket</h1>
+            <IonCard className="mt-5">
+              <IonCardHeader>New Drop</IonCardHeader>
+              <IonItem>
+                {drop !== {} ? (
+                  <div>
+                    <p>From: {drop.from && drop.from.firstName} {drop.from && drop.from.lastName}</p>
+                    <h5>{drop.message}</h5>
+                  </div>
+                ) : (
+                    <p>No Drops</p>
+                  )}
+              </IonItem>
+            </IonCard>
+            <IonCard>
+              <IonCardHeader>Select a Bucket</IonCardHeader>
+              <ListOfBuckets onSelected={changeSelectedBucket} />
+            </IonCard>
+            <IonRow className="ion-align-items-center ion-justify-content-between bl-bottom-row">
+              <IonButton color="danger" onClick={() => setOpen(false)}>Cancel</IonButton>
+              <IonButton onClick={() => {
+                if (selectedBucket !== '') {
+                  assignItemToList({
+                    variables: {
+                      id: drop.id,
+                      listId: selectedBucket
+                    }
+                  })
+                }
+              }}>
+                Add to Bucket
+              </IonButton>
+            </IonRow>
+          </IonCol>
+        </IonRow>
       </IonContent>
     </IonModal>
   )

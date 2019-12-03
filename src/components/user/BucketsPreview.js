@@ -19,9 +19,9 @@ export default function BucketsPreview() {
   })
   if (loading) {
     return (
-      <IonCard className="mt-5">
+      <IonCard>
         <IonCardHeader>
-          <IonTitle>Your Buckets</IonTitle>
+          <h1>Your Buckets</h1>
         </IonCardHeader>
         <IonList>
           <IonItem>
@@ -35,9 +35,9 @@ export default function BucketsPreview() {
   }
   if (error) {
     return (
-      <IonCard className="mt-5">
+      <IonCard>
         <IonCardHeader>
-          <IonTitle>Your Buckets</IonTitle>
+          <h1>Your Buckets</h1>
         </IonCardHeader>
         <IonList>
           <IonItem>
@@ -52,9 +52,9 @@ export default function BucketsPreview() {
   }
 
   return (
-    <IonCard className="mt-5">
+    <IonCard>
       <IonCardHeader>
-        <IonTitle>Your Buckets</IonTitle>
+        <h1>Your Buckets</h1>
       </IonCardHeader>
       <IonList>
         {data.getListsByUser.length > 0 ? data.getListsByUser.map(list => {
