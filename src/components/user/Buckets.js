@@ -21,7 +21,59 @@ import { useState } from 'react'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from '../../graphql'
 import firebase from 'firebase'
-import { ListOfBuckets } from '.';
+
+export function ListOfBuckets({ onSelected }) {
+  const { loading, error, data } = useQuery(gql.getListsByUser, { variables: { id: firebase.auth().currentUser.uid } })
+
+  if (loading) {
+    return (
+      <IonList>
+        <IonItem>
+          <IonLabel>
+            Loading Buckets ...
+          </IonLabel>
+        </IonItem>
+      </IonList>
+    )
+  }
+
+  if (error) {
+    return (
+      <IonList>
+        <IonItem>
+          <IonLabel>
+            Error: {error.message}
+          </IonLabel>
+        </IonItem>
+      </IonList>
+    )
+  }
+
+  return (
+    <IonList>
+      <IonItem>
+        {data.getListsByUser.length > 0 ? (
+          <>
+            <IonLabel>Your Buckets: </IonLabel>
+            <IonSelect placeholder="Select a Bucket" okText="Select" cancelText="Cancel" onIonChange={(e) => onSelected(e.target.value)}>
+              {data.getListsByUser.map((bucket, index) => {
+                return (
+                  <IonSelectOption value={bucket.id} key={bucket.id}>
+                    {bucket.title}
+                  </IonSelectOption>
+                )
+              })}
+            </IonSelect>
+          </>
+        ) : (
+            <IonLabel>
+              No Buckets yet, go make one!
+          </IonLabel>
+          )}
+      </IonItem>
+    </IonList>
+  )
+}
 
 function BucketSelectModal({ acceptingItem, drop, setAcceptingItem }) {
   const [selectedBucket, changeSelectedBucket] = useState('')
@@ -68,7 +120,7 @@ function BucketSelectModal({ acceptingItem, drop, setAcceptingItem }) {
   )
 }
 
-function Dashboard() {
+function Buckets() {
   const [acceptingItem, setAcceptingItem] = useState(false)
   const [drop, setDrop] = useState({})
   const [creatingBucket, setCreatingBucket] = useState(false)
@@ -83,12 +135,29 @@ function Dashboard() {
   return (
     <IonPage className="bl-page">
       <IonContent fullscreen>
-        <BucketSelectModal acceptingItem={acceptingItem} drop={drop} setAcceptingItem={setAcceptingItem} />
-        <NewDropsPreview setAcceptingItem={setAcceptingItem} setDrop={setDrop} />
         <BucketsPreview />
+        {creatingBucket && <IonInput placeholder="Bucket Name" value={bucketName}
+          onInput={e => setBucketName(e.target.value)} />}
+        <IonButton color="success" strong type="button"
+          className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
+            if (creatingBucket) {
+              if (bucketName !== '') {
+                createList({
+                  variables: {
+                    title: bucketName,
+                    userId: firebase.auth().currentUser.uid
+                  }
+                })
+              }
+            } else {
+              setCreatingBucket(true)
+            }
+          }}>
+          {creatingBucket ? 'Add Bucket' : '+ New Bucket'}
+        </IonButton>
       </IonContent>
     </IonPage>
   )
 };
 
-export default authedComponent(Dashboard);
+export default authedComponent(Buckets);
