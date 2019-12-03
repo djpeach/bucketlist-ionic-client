@@ -57,9 +57,9 @@ export default function BucketsPreview() {
         <IonTitle>Your Buckets</IonTitle>
       </IonCardHeader>
       <IonList>
-        {data.getListsByUser.length > 0 ? data.getListsByUser.map((list, index) => {
+        {data.getListsByUser.length > 0 ? data.getListsByUser.map(list => {
           return (
-            <IonItem routerLink={routeWithParams(routes.buckets.detail, list.id)} detail key={index}>
+            <IonItem routerLink={routeWithParams(routes.buckets.detail, list.id)} detail key={list.id}>
               <IonLabel>
                 <p>{list.title}</p>
               </IonLabel>

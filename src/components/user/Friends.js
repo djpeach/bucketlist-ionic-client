@@ -73,7 +73,7 @@ function FriendRequestList() {
     <IonList>
       {data.getFriendRequestsByUser.map(req => {
         return (
-          <IonItemSliding>
+          <IonItemSliding key={req.id}>
             <IonItem key={req.id}>
               <IonLabel>
                 <p>From: {req.from.firstName} {req.from.lastName}</p>
@@ -145,7 +145,7 @@ function MyFriendsList() {
     <IonList>
       {data.getAllFriends.map(f => {
         return (
-          <IonItemSliding>
+          <IonItemSliding key={f.id}>
             <IonItem>
               <IonLabel>
                 <p>{f.firstName} {f.lastName}</p>
@@ -168,7 +168,11 @@ function MyFriendsList() {
 function Friends() {
   const [friendObj, setFriendObj] = useState(null)
   const {loading, error, data} = useQuery(gql.getAllUsers)
-  const [createFriendRequest] = useMutation(gql.createFriendRequest)
+  const [createFriendRequest] = useMutation(gql.createFriendRequest, {
+    onCompleted() {
+      setFriendObj(null)
+    }
+  })
 
   const handleFriendSearchChange = friendObj => {
     setFriendObj(friendObj)
