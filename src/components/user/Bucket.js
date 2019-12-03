@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import authedComponent from '../common/AuthedComponent'
 import {
   IonPage,
@@ -20,8 +20,8 @@ import routes from '../../conf/routes'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from '../../graphql'
 
-function ListView({setTitle, id}) {
-  const {loading, error, data} = useQuery(gql.getListById, { variables: {id: id}, pollInterval: 100})
+function BucketView({ setTitle, id }) {
+  const { loading, error, data } = useQuery(gql.getListById, { variables: { id: id }, pollInterval: 100 })
   const [deleteItem] = useMutation(gql.deleteItem)
 
   if (loading) {
@@ -30,7 +30,7 @@ function ListView({setTitle, id}) {
       <IonList>
         <IonItem>
           <IonLabel>
-            Loading Lists ...
+            Loading Bucket ...
           </IonLabel>
         </IonItem>
       </IonList>
@@ -43,7 +43,7 @@ function ListView({setTitle, id}) {
       <IonList>
         <IonItem>
           <IonLabel>
-           Error: {error.message}
+            Error: {error.message}
           </IonLabel>
         </IonItem>
       </IonList>
@@ -55,13 +55,13 @@ function ListView({setTitle, id}) {
   if (!data.getListById) {
     return ''
   }
-  
+
   if (data.getListById.items.length <= 0) {
     return (
       <IonList>
         <IonItem>
           <IonLabel>
-           No Drops in the Bucket yet
+            No Drops in the Bucket yet
           </IonLabel>
         </IonItem>
       </IonList>
@@ -81,7 +81,7 @@ function ListView({setTitle, id}) {
             </IonItem>
             <IonItemOptions>
               <IonItemOption color="secondary" onClick={() => {
-                deleteItem({variables: {id: item.id}})
+                deleteItem({ variables: { id: item.id } })
               }}>
                 Complete
               </IonItemOption>
@@ -94,7 +94,7 @@ function ListView({setTitle, id}) {
 };
 
 
-function List(props) {
+function Bucket(props) {
   const [title, setTitle] = useState('')
   const [deleteList] = useMutation(gql.deleteList, {
     onCompleted() {
@@ -109,19 +109,20 @@ function List(props) {
             <IonButton
               color="light"
               type="button"
-              routerLink={routes.home}
+              routerLink={routes.buckets.list}
+              routerDirection="back"
               className="bl-list-back-btn">
               <MdArrowDropleft /> Back
             </IonButton>
             <IonCard>
               <IonTitle className="bl-list-title">{title}</IonTitle>
-              <ListView setTitle={setTitle} id={props.match.params.id}/>
+              <BucketView setTitle={setTitle} id={props.match.params.id} />
             </IonCard>
             <IonButton color="danger" strong type="button"
               className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
-                deleteList({variables: {id: props.match.params.id}})
+                deleteList({ variables: { id: props.match.params.id } })
               }}>
-            Delete Bucket
+              Delete Bucket
           </IonButton>
           </IonCol>
         </IonGrid>
@@ -130,4 +131,4 @@ function List(props) {
   )
 };
 
-export default authedComponent(List)
+export default authedComponent(Bucket)

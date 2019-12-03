@@ -81,8 +81,13 @@
 }
 
 .bl-nav-title {
-  margin-top: 14px;
-  font-size: 38px;
+  font-size: 26px;
+}
+
+@media (min-width: 600px) {
+  .bl-nav-title {
+    margin-top: 22px;
+  }
 }
 
 .bl-list-title {

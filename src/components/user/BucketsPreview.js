@@ -7,13 +7,12 @@ import {
   IonLabel,
   IonCardHeader,
 } from "@ionic/react";
-import { generatePath } from 'react-router';
-import routes, {routeWithParams} from "../../conf/routes";
+import routes, { routeWithParams } from "../../conf/routes";
 import { useQuery } from "@apollo/react-hooks";
 import gql from '../../graphql';
 import firebase from "firebase";
 
-export default function ListsPreview() {
+export default function BucketsPreview() {
   const { loading, error, data } = useQuery(gql.getListsByUser, {
     variables: { id: firebase.auth().currentUser.uid },
     pollInterval: 100
@@ -60,7 +59,7 @@ export default function ListsPreview() {
       <IonList>
         {data.getListsByUser.length > 0 ? data.getListsByUser.map((list, index) => {
           return (
-            <IonItem routerLink={routeWithParams(routes.lists.detail, list.id)} detail key={index}>
+            <IonItem routerLink={routeWithParams(routes.buckets.detail, list.id)} detail key={index}>
               <IonLabel>
                 <p>{list.title}</p>
               </IonLabel>
