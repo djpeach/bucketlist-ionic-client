@@ -44,7 +44,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "ci": "CI=true react-scripts test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -62,7 +63,9 @@
     ]
   },
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "description": "An Ionic project",
   "devDependencies": {
