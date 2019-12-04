@@ -10,7 +10,7 @@
 Run `npm run test` to execute the tests.
 
 ## Live Demo
-[BucketList](https://bucketlist450.now.sh/)
+[BucketList](http://client.bucketlist.group)
 
 ## Features of BucketList
 
