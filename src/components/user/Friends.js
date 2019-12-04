@@ -220,7 +220,15 @@ function Friends() {
             pullingText="Pull to refresh">
           </IonRefresherContent>
         </IonRefresher>
-        <IonCard className="bl-card-padding" style={{overflow: "unset", height: "225px"}}>
+        <IonCard className="bl-card-padding">
+          <h1 style={{ paddingBottom: "20px" }}>New Friend Requests</h1>
+          <FriendRequestList updateFriends={allFriends.refetch} {...allFriendRequests}/>
+        </IonCard>
+        <IonCard className="bl-card-padding">
+          <h1 style={{ paddingBottom: "20px" }}>My Friends</h1>
+          <MyFriendsList {...allFriends}/>
+        </IonCard>
+        <IonCard className="bl-card-padding" style={{overflow: "unset", height: "225px", marginBottom: "150px"}}>
           <h1 style={{ paddingBottom: "20px" }}>Add Friend</h1>
           <Select
             value={friendObj}
@@ -245,14 +253,6 @@ function Friends() {
             }}>
               Send Friend Request
             </IonButton>
-        </IonCard>
-        <IonCard className="bl-card-padding">
-          <h1 style={{ paddingBottom: "20px" }}>New Friend Requests</h1>
-          <FriendRequestList updateFriends={allFriends.refetch} {...allFriendRequests}/>
-        </IonCard>
-        <IonCard className="bl-card-padding">
-          <h1 style={{ paddingBottom: "20px" }}>My Friends</h1>
-          <MyFriendsList {...allFriends}/>
         </IonCard>
       </IonContent>
     </IonPage>
