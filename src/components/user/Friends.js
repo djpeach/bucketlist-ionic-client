@@ -228,7 +228,7 @@ function Friends() {
           <h1 style={{ paddingBottom: "20px" }}>My Friends</h1>
           <MyFriendsList {...allFriends}/>
         </IonCard>
-        <IonCard className="bl-card-padding">
+        <IonCard className="bl-card-padding" style={{overflow: "unset", height: "250px", marginBottom: "150px"}}>
           <h1 style={{ paddingBottom: "20px" }}>Add Friend</h1>
           <Select
             value={friendObj}
@@ -240,10 +240,10 @@ function Friends() {
             isSearchable
             name="friends"
             // TODO: set this up to not use mock state (options are label, value)
-            options={users}
+            options={users.filter(user => user.id !== firebase.auth().currentUser.id)}
           />
             <IonButton color="success" strong type="button"
-            className="ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
+            className="mt-3 ion-float-right ion-margin-end ion-margin-bottom bl-new-list-btn" onClick={() => {
               if (friendObj) {
                 createFriendRequest({variables: {
                   senderId: firebase.auth().currentUser.uid,

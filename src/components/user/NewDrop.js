@@ -78,7 +78,7 @@ function NewDrop(props) {
 
   return (
     <IonPage className="bl-page">
-      <IonCard className="bl-card-padding">
+      <IonCard className="bl-card-padding" style={{overflow: "unset", height: friendObj && friendObj.label === 'Myself' ? "350px" : "300px", marginBottom: "150px"}}>
         <h1 style={{ paddingBottom: '20px' }}>New Drop</h1>
         <form onSubmit={handleSubmit}>
           <Select
@@ -90,7 +90,7 @@ function NewDrop(props) {
             isClearable
             isSearchable
             name="friends"
-            options={selectOptions}
+            options={[...selectOptions, ...selectOptions]}
           />
 
           <IonItem style={{ marginTop: '20px' }}>
