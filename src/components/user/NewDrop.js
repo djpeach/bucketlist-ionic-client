@@ -90,7 +90,7 @@ function NewDrop(props) {
             isClearable
             isSearchable
             name="friends"
-            options={[...selectOptions, ...selectOptions]}
+            options={selectOptions}
           />
 
           <IonItem style={{ marginTop: '20px' }}>
