@@ -4,26 +4,18 @@ import firebase from 'firebase'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
-import { ApolloLink, concat } from 'apollo-link'
+import { ApolloLink } from 'apollo-link'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 import keys from './conf/keys'
 import App from './App'
 
 const httpLink = new HttpLink({
-  uri: 'http://server.bucketlist.group/graphql',
-})
-
-const authMiddleware = new ApolloLink((operation, forward) => {
-  operation.setContext({
-    headers: { authtoken: localStorage.getItem('authtoken') },
-  })
-
-  return forward(operation)
+  uri: 'http://167.172.219.73/graphql',
 })
 
 const client = new ApolloClient({
-  link: concat(authMiddleware, httpLink),
+  link: httpLink,
   cache: new InMemoryCache(),
 })
 
