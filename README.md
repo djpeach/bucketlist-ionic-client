@@ -9,6 +9,20 @@
 ## Tests
 Run `npm run test` to execute the tests.
 
+## Technical Stack
+Listed below are some of the technolgies used to power bucketlist!
+
+### Front End
+- [React](https://reactjs.org/)
+- [Ionic](https://ionicframework.com/docs/react)
+- [Apollo](https://www.apollographql.com/)
+### Back End
+- [GraphQL](https://graphql.org/)
+- [Firebase](https://firebase.google.com/)
+- [Express](https://www.express.com/)
+- [express-graphql](https://github.com/graphql/express-graphql)
+- [Lodash](https://lodash.com/)
+
 ## Live Demo
 [BucketList](http://client.bucketlist.group)
 
