@@ -10,7 +10,7 @@
 Run `npm run test` to execute the tests.
 
 ## Technical Stack
-Listed below are some of the technologies used to power bucketlist!
+Listed below are some of the technologies used to power BucketList!
 
 ### Front End
 - [React](https://reactjs.org/)
